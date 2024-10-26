@@ -70,12 +70,15 @@ if (distributor == "%DOLPHIN_DISTRIBUTOR%") distributor = "Ishiiruka-based";
 // remove hash (and trailing "-0" if needed) from description
 describe = describe.replace(/(-0)?-[^-]+(-dirty)?$/, '$2');
 
+var KARphinVersion = "Tourny-0-1-0";
+
 var out_contents =
 	"#define SCM_REV_STR \"" + revision + "\"\n" +
 	"#define SCM_DESC_STR \"" + revcount + " (" + describe + ")\"\n" +
 	"#define SCM_BRANCH_STR \"" + branch + "\"\n" +
 	"#define SCM_IS_MASTER " + isStable + "\n" +
-	"#define SCM_DISTRIBUTOR_STR \"" + distributor + "\"\n";
+	"#define SCM_DISTRIBUTOR_STR \"" + distributor + "\"\n" +
+	"#define KARPHIN_VERSION \"" + KARphinVersion + "\"\n";
 // check if file needs updating
 if (out_contents == GetFileContents(outfile))
 {

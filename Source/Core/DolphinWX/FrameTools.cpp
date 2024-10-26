@@ -949,6 +949,19 @@ void CFrame::DoRecordingSave()
 	if (!paused)
 		DoPause();
 
+	//makes a replay folder if it doesn't exist
+	wxString replayFolder = "../Replays";
+	if (!File::Exists(replayFolder.ToStdString()))
+		File::CreateDir(replayFolder.ToStdString());
+
+	//saves the video TAS file to Replays
+
+	//saves the gecko codes
+
+	//saves the players
+
+	//saves what version of KARphin was used
+
 	wxString path =
 		wxFileSelector(_("Select The Recording File"), wxEmptyString, wxEmptyString, wxEmptyString,
 			_("Dolphin TAS Movies (*.dtm)") +
