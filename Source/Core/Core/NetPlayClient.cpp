@@ -533,6 +533,7 @@ unsigned int NetPlayClient::OnData(sf::Packet& packet)
 		//if the frame is greater then 5, and is the first desync of the game, hide it
 		if (frame > 5 && !firstDesyncOfGameHasHappened)
 		{
+			firstDesyncOfGameHasHappened = true;
 			break;
 		}
 
@@ -949,6 +950,8 @@ bool NetPlayClient::StartGame(const std::string& path)
 		return false;
 	}
 
+	firstDesyncOfGameHasHappened = false; //reset the hide desync of CT FS codes flag
+
 	m_timebase_frame = 0;
 
 	m_is_running.Set();
@@ -1290,6 +1293,8 @@ bool NetPlayClient::StopGame()
 
     for(auto& player : m_players)
         player.second.frame_time = 0;
+
+	firstDesyncOfGameHasHappened = false; // reset the hide desync of CT FS codes flag
 
 	return true;
 }

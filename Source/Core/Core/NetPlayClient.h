@@ -182,7 +182,10 @@ protected:
 	PadMappingArray m_wiimote_map;
 
 	bool m_is_recording = false;
-private:
+
+	bool firstDesyncOfGameHasHappened = false; //used for hiding the first desync of a match from fullscreen codes
+
+  private:
 	enum class ConnectionState
 	{
 		WaitingForTraversalClientConnection,
