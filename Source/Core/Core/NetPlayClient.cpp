@@ -29,6 +29,8 @@
 #include "VideoCommon/OnScreenDisplay.h"
 #include "VideoCommon/VideoConfig.h"
 
+#include "KAR/FSCodeInjector.hpp"
+
 static std::mutex crit_netplay_client;
 NetPlayClient* netplay_client = nullptr;
 NetSettings g_NetPlaySettings;
@@ -1007,6 +1009,10 @@ void NetPlayClient::UpdateDevices()
 			{
 				SerialInterface::AddDevice(SIDEVICE_GC_CONTROLLER, pad);
 			}
+
+			// updates the GC in SConfig
+			SConfig::GetInstance().GCPort = pad;
+
 			local_pad++;
 		}
 		else if (player_id > 0)

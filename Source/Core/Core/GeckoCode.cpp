@@ -18,6 +18,8 @@
 
 #include <iostream>
 
+#include "KAR/FSCodeInjector.hpp"
+
 namespace Gecko
 {
 
@@ -29,6 +31,7 @@ bool GeckoCode::Exist(u32 address, u32 data) const
 {
 	for (const GeckoCode::Code& code : codes)
 	{
+
 		if (code.address == address && code.data == data)
 			return true;
 	}
@@ -96,14 +99,18 @@ void SetActiveCodes(const std::vector<GeckoCode>& gcodes)
 	active_codes.clear();
 
 	// add enabled codes
+	const uint8_t FSIndex = SConfig::GetInstance().GCPort;
 	for (const GeckoCode& gecko_code : gcodes)
-	{        
-		if ((gecko_code.enabled && !IsDisabledMeleeCode(gecko_code)) || IsEnabledMeleeCode(gecko_code))
+	{    
+		//if it's a regular code, we let it through, if it's a FS code we need a little extra logic
+		if (KAR::Gecko::FS::SetGeckoCodeIfItFSCode(FSIndex, gecko_code.name.c_str()))
 		{
 			// TODO: apply modifiers
 			// TODO: don't need description or creator string, just takin up memory
 			active_codes.push_back(gecko_code);
 		}
+
+		
 	}
 
 	code_handler_installed = false;

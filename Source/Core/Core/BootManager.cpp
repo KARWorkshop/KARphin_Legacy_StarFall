@@ -41,6 +41,8 @@
 #include "VideoCommon/VideoBackendBase.h"
 #include "VideoCommon/OnScreenDisplay.h"
 
+#include "KAR/FSCodeInjector.hpp"
+
 namespace BootManager
 {
 // TODO this is an ugly hack which allows us to restore values trampled by per-game settings
@@ -384,6 +386,7 @@ bool BootCore(const std::string& _rFilename)
 		config_cache.bSetEXIDevice[1] = true;
         StartUp.iLagReductionCode = g_NetPlaySettings.m_LagReduction;
         StartUp.bMeleeForceWidescreen = g_NetPlaySettings.m_MeleeForceWidescreen;
+		//StartUp.GCPort = KAR::Gecko::FS::KARPHIN_FS_PORT;
 	}
 	else
 	{

@@ -84,6 +84,8 @@
 #define ThreadLocalStorage thread_local
 #endif
 
+#include <Core/KAR/FSCodeInjector.hpp>
+
 namespace Core
 {
 // TODO: ugly, remove
@@ -500,6 +502,7 @@ void EmuThread()
 	}
 
 	OSD::AddMessage("Dolphin " + video_backend->GetName() + " Video Backend.", 5000);
+	OSD::AddMessage("FS Code: " + std::to_string(SConfig::GetInstance().GCPort), 5000, OSD::Color::CYAN);
 
 	if (cpu_info.HTT)
 		SConfig::GetInstance().bDSPThread = cpu_info.num_cores > 4;

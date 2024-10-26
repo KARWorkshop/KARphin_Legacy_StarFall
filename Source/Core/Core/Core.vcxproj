@@ -211,6 +211,7 @@
     <ClCompile Include="IPC_HLE\WII_IPC_HLE_WiiMote.cpp" />
     <ClCompile Include="IPC_HLE\WII_Socket.cpp" />
     <ClCompile Include="IPC_HLE\WiiNetConfig.cpp" />
+    <ClCompile Include="KAR\FSCodeInjector.cpp" />
     <ClCompile Include="MemTools.cpp" />
     <ClCompile Include="Movie.cpp" />
     <ClCompile Include="NetPlayClient.cpp" />
@@ -422,6 +423,7 @@
     <ClInclude Include="IPC_HLE\WII_IPC_HLE_WiiMote.h" />
     <ClInclude Include="IPC_HLE\WII_Socket.h" />
     <ClInclude Include="IPC_HLE\WiiNetConfig.h" />
+    <ClInclude Include="KAR\FSCodeInjector.hpp" />
     <ClInclude Include="MachineContext.h" />
     <ClInclude Include="MemTools.h" />
     <ClInclude Include="Movie.h" />
