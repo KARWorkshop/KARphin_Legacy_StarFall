@@ -530,6 +530,12 @@ unsigned int NetPlayClient::OnData(sf::Packet& packet)
 		packet >> pid_to_blame;
 		packet >> frame;
 
+		//if the frame is greater then 5, and is the first desync of the game, hide it
+		if (frame > 5 && !firstDesyncOfGameHasHappened)
+		{
+			break;
+		}
+
 		std::string player = "??";
 		std::lock_guard<std::recursive_mutex> lkp(m_crit.players);
 		{

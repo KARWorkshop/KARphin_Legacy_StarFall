@@ -21,7 +21,7 @@ struct NetSettings
 	bool m_PAL60;
 	bool m_DSPHLE;
 	bool m_DSPEnableJIT;
-	bool m_WriteToMemcard;
+	bool m_WriteToMemcard = true;
 	bool m_OCEnable;
 	float m_OCFactor;
 	TEXIDevices m_EXIDevice[2];
