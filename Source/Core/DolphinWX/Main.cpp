@@ -105,6 +105,7 @@ bool DolphinApp::OnInit()
 	std::lock_guard<std::mutex> lk(s_init_mutex);
 	if (!wxApp::OnInit())
 		return false;
+
 	wxLog::SetLogLevel(0);
 	Bind(wxEVT_QUERY_END_SESSION, &DolphinApp::OnEndSession, this);
 	Bind(wxEVT_END_SESSION, &DolphinApp::OnEndSession, this);
@@ -226,9 +227,16 @@ void DolphinApp::OnInitCmdLine(wxCmdLineParser& parser)
 			 wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL},
 			{wxCMD_LINE_OPTION, "m", "movie", "Play a movie file", wxCMD_LINE_VAL_STRING,
 			 wxCMD_LINE_PARAM_OPTIONAL},
+			
 			{wxCMD_LINE_OPTION, "u", "user", "User folder path", wxCMD_LINE_VAL_STRING,
 			 wxCMD_LINE_PARAM_OPTIONAL},
-			{wxCMD_LINE_NONE, nullptr, nullptr, nullptr, wxCMD_LINE_VAL_NONE, 0} };
+		
+		//initalize a connection to the Dolphin Bridge || this flag must always be found, otherwise we exit
+	    {wxCMD_LINE_OPTION, "k", "karphin_bridge",
+		"THIS FLAG MUST ALWAYS BE PASSED. This passes a config file for the KARphin frontend Bridge, so we can communicate.", wxCMD_LINE_VAL_STRING,
+		wxCMD_LINE_OPTION_MANDATORY},
+
+		{wxCMD_LINE_NONE, nullptr, nullptr, nullptr, wxCMD_LINE_VAL_NONE, 0} };
 
 	parser.SetDesc(desc);
 }
