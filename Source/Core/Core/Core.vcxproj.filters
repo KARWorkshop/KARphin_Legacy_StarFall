@@ -754,6 +754,7 @@
     <ClCompile Include="IPC_HLE\WII_IPC_HLE_Device_usb_ven.cpp">
       <Filter>IPC HLE %28IOS/Starlet%29\USB</Filter>
     </ClCompile>
+    <ClCompile Include="KAR\Netplay\NetUser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BootManager.h" />

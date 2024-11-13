@@ -25,6 +25,8 @@
 #include "DolphinWX/NetPlay/NetWindow.h"
 #include "DolphinWX/WxUtils.h"
 
+#include "Core/KAR/Netplay/NetUser.hpp"
+
 namespace
 {
 wxString GetTraversalLabelText(IniFile::Section& section)
@@ -36,8 +38,10 @@ wxString GetTraversalLabelText(IniFile::Section& section)
 }  // Anonymous namespace
 
 NetPlaySetupFrame::NetPlaySetupFrame(wxWindow* const parent, const CGameListCtrl* const game_list)
-	: wxFrame(parent, wxID_ANY, _("Dolphin NetPlay Setup")), m_game_list(game_list)
+	: wxFrame(parent, wxID_ANY, _("KARphin NetPlay Setup")), m_game_list(game_list)
 {
+	//loads the last used netplay account
+
 	IniFile inifile;
 	inifile.Load(File::GetUserPath(F_DOLPHINCONFIG_IDX));
 	IniFile::Section& netplay_section = *inifile.GetOrCreateSection("NetPlay");
@@ -47,8 +51,8 @@ NetPlaySetupFrame::NetPlaySetupFrame(wxWindow* const parent, const CGameListCtrl
 
 	{
 		std::string temp;
-		netplay_section.Get("Nickname", &temp, "Player");
-		m_nickname_text->SetValue(StrToWxStr(temp));
+		//netplay_section.Get("Nickname", &temp, "Player");
+		m_nickname_text->SetValue(StrToWxStr(KAR::Netplay::User::currentUserLoggedIn.displayName));
 
 		temp.clear();
 		netplay_section.Get("HostCode", &temp, "00000000");

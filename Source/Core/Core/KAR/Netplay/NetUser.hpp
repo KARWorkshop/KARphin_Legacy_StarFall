@@ -60,6 +60,7 @@ namespace KAR
 
 				//loads public info from a file
 			};
+            static UserAccountData currentUserLoggedIn;
 
 			//generates a private hash the Warp Relay uses
 

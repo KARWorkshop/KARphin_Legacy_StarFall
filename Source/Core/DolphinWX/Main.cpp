@@ -311,6 +311,11 @@ void DolphinApp::MacOpenFile(const wxString& fileName)
 
 void DolphinApp::AfterInit()
 {
+	//checks for versioning data and perform update if needed
+
+	//writes versioning data to file
+	//KAR::Settings::WriteBuildVersionDataToFile();
+
 	if (!m_batch_mode)
 		main_frame->UpdateGameList();
 
