@@ -167,13 +167,7 @@ wxNotebook* NetPlaySetupFrame::CreateNotebookGUI(wxWindow* parent)
 
 		wxStaticText* const alert_lbl = new wxStaticText(
 			connect_tab, wxID_ANY,
-			_("ALERT:\n\n"
-				"All players must use the same Dolphin version.\n"
-				"All memory cards, SD cards and cheats must be identical between players or disabled.\n"
-				"If DSP LLE is used, DSP ROMs must be identical between players.\n"
-				"If connecting directly, the host must have the chosen UDP port open/forwarded!\n"
-				"\n"
-				"Wii Remote support in netplay is experimental and should not be expected to work.\n"));
+			_("Put IP or Host Code in the above field. Or just drag and drop a KAR Invite file on this window.\n"));
 
 		wxBoxSizer* const top_szr = new wxBoxSizer(wxHORIZONTAL);
 		top_szr->Add(m_ip_lbl, 0, wxALIGN_CENTER_VERTICAL);
