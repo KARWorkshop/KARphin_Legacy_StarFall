@@ -68,7 +68,6 @@ public:
 	u32 buffer = 0;
 };
 
-
 class NetPlayClient : public TraversalClientClient
 {
 public:
