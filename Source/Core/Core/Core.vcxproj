@@ -427,6 +427,7 @@
     <ClInclude Include="KAR\GameData\CTStadiums.hpp" />
     <ClInclude Include="KAR\GameData\Events.hpp" />
     <ClInclude Include="KAR\GameData\GameIDs.hpp" />
+    <ClInclude Include="KAR\json.hpp" />
     <ClInclude Include="KAR\Netplay\ConnectPacket.hpp" />
     <ClInclude Include="KAR\Netplay\LobbyData\Lobby.hpp" />
     <ClInclude Include="KAR\Netplay\NetUser.hpp" />

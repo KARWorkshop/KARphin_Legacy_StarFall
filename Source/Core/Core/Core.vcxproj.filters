@@ -1298,6 +1298,7 @@
     <ClInclude Include="KAR\GameData\GameIDs.hpp" />
     <ClInclude Include="KAR\Netplay\ConnectPacket.hpp" />
     <ClInclude Include="KAR\Netplay\LobbyData\Lobby.hpp" />
+    <ClInclude Include="KAR\json.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
