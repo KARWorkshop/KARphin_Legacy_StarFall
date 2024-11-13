@@ -55,6 +55,12 @@ private:
 	wxString m_file_to_load;
 	wxString m_movie_file;
 	std::unique_ptr<wxLocale> m_locale;
+
+	//KAR Netplay Flags
+	bool hostNetplayAtBoot = false, connectToNetplayAsPlayerAtBoot = false, connectToNetplayAsSpectatorAtBoot = false;
+	wxString karMatchInviteFilepath;
+
+	//KAR Replay flags
 };
 
 DECLARE_APP(DolphinApp);
