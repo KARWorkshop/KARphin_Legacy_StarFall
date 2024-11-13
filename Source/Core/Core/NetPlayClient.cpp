@@ -29,6 +29,8 @@
 #include "VideoCommon/OnScreenDisplay.h"
 #include "VideoCommon/VideoConfig.h"
 
+#include "Core/KAR/Netplay/ConnectPacket.hpp"
+
 static std::mutex crit_netplay_client;
 NetPlayClient* netplay_client = nullptr;
 NetSettings g_NetPlaySettings;
@@ -174,6 +176,17 @@ bool NetPlayClient::Connect()
 {
 	// send connect message
 	sf::Packet spac;
+
+	//sends the version of KARphin tourny mode
+	
+	//are we in a actual tournament or just casual
+
+	//are we a spectator or player
+
+	//sends the username 
+
+	//sends the region
+
 	spac << scm_rev_git_str;
 	spac << netplay_dolphin_ver;
 	spac << m_player_name;

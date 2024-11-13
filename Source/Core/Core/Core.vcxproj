@@ -422,6 +422,10 @@
     <ClInclude Include="IPC_HLE\WII_IPC_HLE_WiiMote.h" />
     <ClInclude Include="IPC_HLE\WII_Socket.h" />
     <ClInclude Include="IPC_HLE\WiiNetConfig.h" />
+    <ClInclude Include="KAR\GameData\CTStadiums.hpp" />
+    <ClInclude Include="KAR\GameData\Events.hpp" />
+    <ClInclude Include="KAR\GameData\GameIDs.hpp" />
+    <ClInclude Include="KAR\Netplay\ConnectPacket.hpp" />
     <ClInclude Include="KAR\Netplay\NetUser.hpp" />
     <ClInclude Include="KAR\Versioning.hpp" />
     <ClInclude Include="MachineContext.h" />

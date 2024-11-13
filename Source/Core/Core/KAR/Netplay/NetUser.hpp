@@ -39,8 +39,8 @@ namespace KAR
 				Count
 			};
 
-			//defines a user in the instance
-			struct UserData
+			//defines the account info of this user
+			struct UserAccountData
 			{
 				//this user's ELO on the discord leaderboard
 				
@@ -54,12 +54,32 @@ namespace KAR
 
 					//the data associated with their Discord
 
+					//the URL to their custom profile icon
+
 				//writes public info to a file
 
 				//loads public info from a file
 			};
 
 			//generates a private hash the Warp Relay uses
+
+			//defines if they're a real player or a spectator
+			enum class LobbyMemberState
+			{
+				Player = 0, //players are those who will actually send input packets
+
+				Spectator, //spectators will just watch the game, not actually partake in it
+
+				Count
+			};
+
+			//defines a slimmed down version of the player used in Lobby and netplay match data
+			struct UserData
+			{
+	            LobbyMemberState state = LobbyMemberState::Spectator;
+	            Region region = Region::NA;
+	            std::string displayName = "Kirby";
+			};
 		}
 	}
 }
