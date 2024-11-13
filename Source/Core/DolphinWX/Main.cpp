@@ -227,14 +227,25 @@ void DolphinApp::OnInitCmdLine(wxCmdLineParser& parser)
 			 wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL},
 			{wxCMD_LINE_OPTION, "m", "movie", "Play a movie file", wxCMD_LINE_VAL_STRING,
 			 wxCMD_LINE_PARAM_OPTIONAL},
-			
 			{wxCMD_LINE_OPTION, "u", "user", "User folder path", wxCMD_LINE_VAL_STRING,
 			 wxCMD_LINE_PARAM_OPTIONAL},
 		
 		//initalize a connection to the Dolphin Bridge || this flag must always be found, otherwise we exit
 	    {wxCMD_LINE_OPTION, "k", "karphin_bridge",
-		"THIS FLAG MUST ALWAYS BE PASSED. This passes a config file for the KARphin frontend Bridge, so we can communicate.", wxCMD_LINE_VAL_STRING,
+		"This passes a config file for the KARphin frontend Bridge, so we can communicate.", wxCMD_LINE_VAL_STRING,
 		wxCMD_LINE_OPTION_MANDATORY},
+
+		//loads a match invite file and starts hosting it
+		{wxCMD_LINE_OPTION, "hm", "host_match", "Takes in a host invite file and starts a Lobby", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL},
+	    
+		// loads a match invite file and connects to it as a player
+	    {wxCMD_LINE_OPTION, "cpm", "connect_player_match", "Takes in a host invite file and attempts to join the lobby as a player", wxCMD_LINE_VAL_STRING,
+	     wxCMD_LINE_PARAM_OPTIONAL},
+
+		 // loads a match invite file and connects to it as a spectator
+	    {wxCMD_LINE_OPTION, "csm", "connect_spectator_match",
+	     "Takes in a host invite file and attempts to join the lobby as a spectator", wxCMD_LINE_VAL_STRING,
+	     wxCMD_LINE_PARAM_OPTIONAL},
 
 		{wxCMD_LINE_NONE, nullptr, nullptr, nullptr, wxCMD_LINE_VAL_NONE, 0} };
 
@@ -296,6 +307,12 @@ bool DolphinApp::OnCmdLineParsed(wxCmdLineParser& parser)
 	m_select_audio_emulation = parser.Found("audio_emulation", &m_audio_emulation_name);
 	m_play_movie = parser.Found("movie", &m_movie_file);
 	parser.Found("user", &m_user_path);
+
+	//hosts a match at boot
+
+	//connect to a match as player at boot
+
+	//connects to a match as a spectator at boot
 
 	return true;
 }
@@ -378,6 +395,12 @@ void DolphinApp::AfterInit()
 			main_frame->BootGame("");
 		}
 	}
+
+	//hosts a netplay match
+
+	//attempts to connect to a netplay match as a player
+
+	//attempts to connect to a netplay match as a specator
 }
 
 void DolphinApp::OnActivate(wxActivateEvent& ev)

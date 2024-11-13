@@ -340,13 +340,15 @@ void NetPlaySetupFrame::DoHost()
 	host_config.traversal_port = NetPlayLaunchConfig::GetTraversalPortFromIniConfig(netplay_section);
 	host_config.traversal_host = NetPlayLaunchConfig::GetTraversalHostFromIniConfig(netplay_section);
 
-	netplay_section.Set("SelectedHostGame", host_config.game_name);
-	ini_file.Save(dolphin_ini);
+	//netplay_section.Set("SelectedHostGame", host_config.game_name);
+	//ini_file.Save(dolphin_ini);
 
 	if (NetPlayLauncher::Host(host_config))
 	{
 		Destroy();
 	}
+
+	//writes a match invite file to disc
 }
 
 void NetPlaySetupFrame::OnJoin(wxCommandEvent&)
