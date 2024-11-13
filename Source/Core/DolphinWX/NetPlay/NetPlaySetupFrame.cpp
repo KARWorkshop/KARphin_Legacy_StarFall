@@ -41,65 +41,37 @@ wxString GetTraversalLabelText(IniFile::Section& section)
 NetPlaySetupFrame::NetPlaySetupFrame(wxWindow* const parent, const CGameListCtrl* const game_list)
 	: wxFrame(parent, wxID_ANY, _("KARphin NetPlay Setup")), m_game_list(game_list)
 {
-	//loads the last used netplay account
+	//loads the user stuff if it exists
 
-	IniFile inifile;
-	inifile.Load(File::GetUserPath(F_DOLPHINCONFIG_IDX));
-	IniFile::Section& netplay_section = *inifile.GetOrCreateSection("NetPlay");
+	//IniFile inifile;
+	//inifile.Load(File::GetUserPath(F_DOLPHINCONFIG_IDX));
+	//IniFile::Section& netplay_section = *inifile.GetOrCreateSection("NetPlay");
 
 	CreateGUI();
 	SetIcons(WxUtils::GetDolphinIconBundle());
 
 	{
-		std::string temp;
-		//netplay_section.Get("Nickname", &temp, "Player");
 		m_nickname_text->SetValue(StrToWxStr(KAR::Netplay::User::currentUserLoggedIn.displayName));
 
-		//temp.clear();
-		//netplay_section.Get("HostCode", &temp, "00000000");
 		m_connect_hashcode_text->SetValue(StrToWxStr(KAR::Netplay::Lobby::currentLobbyInstance.IP_HostCode));
-
-		//temp.clear();
-		//netplay_section.Get("Address", &temp, "127.0.0.1");
 		m_connect_ip_text->SetValue(StrToWxStr(KAR::Netplay::Lobby::currentLobbyInstance.IP_HostCode));
-
-		//temp.clear();
-		//netplay_section.Get("ConnectPort", &temp,
-		//	std::to_string(NetPlayHostConfig::DEFAULT_LISTEN_PORT));
 		m_connect_port_text->SetValue(StrToWxStr(KAR::Netplay::Lobby::currentLobbyInstance.host_connect_port));
-
-		//temp.clear();
-		//netplay_section.Get("HostPort", &temp, std::to_string(NetPlayHostConfig::DEFAULT_LISTEN_PORT));
 		m_host_port_text->SetValue(StrToWxStr(KAR::Netplay::Lobby::currentLobbyInstance.host_connect_port));
-
-		temp.clear();
-		if (netplay_section.Get("SelectedHostGame", &temp, ""))
-			m_game_lbox->SetStringSelection(StrToWxStr(temp));
+		m_game_lbox->SetStringSelection(StrToWxStr(KAR::Netplay::Lobby::currentLobbyInstance.gameName));
 
 #ifdef USE_UPNP
-		bool use_upnp = false;
-		netplay_section.Get("UseUPNP", &use_upnp, false);
-		m_upnp_chk->SetValue(use_upnp);
+		//bool use_upnp = false;
+		//netplay_section.Get("UseUPNP", &use_upnp, false);
+		m_upnp_chk->SetValue(false);
 #endif
 
-		unsigned int listen_port = 0;
-		netplay_section.Get("ListenPort", &listen_port, 0);
-		m_traversal_listen_port_enabled->SetValue(listen_port != 0);
+		m_traversal_listen_port_enabled->SetValue(false);
 		m_traversal_listen_port->Enable(m_traversal_listen_port_enabled->IsChecked());
-		m_traversal_listen_port->SetValue(listen_port);
+		m_traversal_listen_port->SetValue(0);
 
-		temp.clear();
-		netplay_section.Get("TraversalChoice", &temp, "direct");
-		if (temp == "traversal")
-		{
-			m_direct_traversal->Select(TRAVERSAL_CHOICE);
-		}
-		else
-		{
-			m_direct_traversal->Select(DIRECT_CHOICE);
-		}
+		m_direct_traversal->Select(TRAVERSAL_CHOICE);
 
-		m_traversal_lbl->SetLabelText(GetTraversalLabelText(netplay_section));
+		m_traversal_lbl->SetLabelText(m_direct_traversal->GetString(0));
 	}
 
 	Center();
@@ -280,50 +252,53 @@ wxNotebook* NetPlaySetupFrame::CreateNotebookGUI(wxWindow* parent)
 
 NetPlaySetupFrame::~NetPlaySetupFrame()
 {
-	IniFile inifile;
-	const std::string dolphin_ini = File::GetUserPath(F_DOLPHINCONFIG_IDX);
-	inifile.Load(dolphin_ini);
-	IniFile::Section& netplay_section = *inifile.GetOrCreateSection("NetPlay");
+	//we don't bother saving anything, just use the defaults
 
-	std::string travChoice;
-	switch (m_direct_traversal->GetSelection())
-	{
-	case TRAVERSAL_CHOICE:
-		travChoice = "traversal";
-		break;
-	case DIRECT_CHOICE:
-		travChoice = "direct";
-		break;
-	}
+	//IniFile inifile;
+	//const std::string dolphin_ini = File::GetUserPath(F_DOLPHINCONFIG_IDX);
+	//inifile.Load(dolphin_ini);
+	//IniFile::Section& netplay_section = *inifile.GetOrCreateSection("NetPlay");
+	//
+	//std::string travChoice;
+	//switch (m_direct_traversal->GetSelection())
+	//{
+	//case TRAVERSAL_CHOICE:
+	//	travChoice = "traversal";
+	//	break;
+	//case DIRECT_CHOICE:
+	//	travChoice = "direct";
+	//	break;
+	//}
 
-	netplay_section.Set("TraversalChoice", travChoice);
-	//netplay_section.Set("Nickname", WxStrToStr(m_nickname_text->GetValue()));
-	KAR::Netplay::User::currentUserLoggedIn.displayName = WxStrToStr(m_nickname_text->GetValue());
+	//netplay_section.Set("TraversalChoice", travChoice);
+	////netplay_section.Set("Nickname", WxStrToStr(m_nickname_text->GetValue()));
+	//KAR::Netplay::User::currentUserLoggedIn.displayName = WxStrToStr(m_nickname_text->GetValue());
+	//
+	//if (m_direct_traversal->GetCurrentSelection() == DIRECT_CHOICE)
+	//	//netplay_section.Set("Address", WxStrToStr(m_connect_ip_text->GetValue()));
+	//	KAR::Netplay::Lobby::currentLobbyInstance.IP_HostCode = WxStrToStr(m_connect_ip_text->GetValue());
+	//else
+	//	//netplay_section.Set("HostCode", WxStrToStr(m_connect_hashcode_text->GetValue()));
+	//	KAR::Netplay::Lobby::currentLobbyInstance.IP_HostCode = WxStrToStr(m_connect_hashcode_text->GetValue());
+	//
+	////netplay_section.Set("ConnectPort", WxStrToStr(m_connect_port_text->GetValue()));
+	////netplay_section.Set("HostPort", WxStrToStr(m_host_port_text->GetValue()));
+	//KAR::Netplay::Lobby::currentLobbyInstance.host_connect_port = WxStrToStr(m_connect_port_text->GetValue());
+	//KAR::Netplay::Lobby::currentLobbyInstance.host_connect_port = WxStrToStr(m_host_port_text->GetValue());
 
-	if (m_direct_traversal->GetCurrentSelection() == DIRECT_CHOICE)
-		//netplay_section.Set("Address", WxStrToStr(m_connect_ip_text->GetValue()));
-		KAR::Netplay::Lobby::currentLobbyInstance.IP_HostCode = WxStrToStr(m_connect_ip_text->GetValue());
-	else
-		//netplay_section.Set("HostCode", WxStrToStr(m_connect_hashcode_text->GetValue()));
-		KAR::Netplay::Lobby::currentLobbyInstance.IP_HostCode = WxStrToStr(m_connect_hashcode_text->GetValue());
+	//netplay_section.Set("ListenPort", m_traversal_listen_port_enabled->IsChecked() ?
+//		m_traversal_listen_port->GetValue() :
+//		0);
 
-	//netplay_section.Set("ConnectPort", WxStrToStr(m_connect_port_text->GetValue()));
-	//netplay_section.Set("HostPort", WxStrToStr(m_host_port_text->GetValue()));
-	KAR::Netplay::Lobby::currentLobbyInstance.host_connect_port = WxStrToStr(m_connect_port_text->GetValue());
-	KAR::Netplay::Lobby::currentLobbyInstance.host_connect_port = WxStrToStr(m_host_port_text->GetValue());
-
-	netplay_section.Set("ListenPort", m_traversal_listen_port_enabled->IsChecked() ?
-		m_traversal_listen_port->GetValue() :
-		0);
-
-#ifdef USE_UPNP
-	netplay_section.Set("UseUPNP", m_upnp_chk->GetValue(), false);
-#endif
-
-	inifile.Save(dolphin_ini);
-
-	//writes to file
-	//KAR::Netplay::Lobby::currentLobbyInstance.WriteLobbyDataToDefaultLobbyFile();
+//#ifdef USE_UPNP
+//	netplay_section.Set("UseUPNP", m_upnp_chk->GetValue(), false);
+//#endif
+//
+//	inifile.Save(dolphin_ini);
+//
+//	//writes to file
+//	//KAR::Netplay::Lobby::currentLobbyInstance.WriteLobbyDataToDefaultLobbyFile();
+//	KAR::Netplay::Lobby::currentLobbyInstance.GenerateLobbyInviteFile();
 
 	main_frame->g_NetPlaySetupDiag = nullptr;
 }
