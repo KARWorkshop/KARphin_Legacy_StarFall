@@ -297,15 +297,21 @@ NetPlaySetupFrame::~NetPlaySetupFrame()
 	}
 
 	netplay_section.Set("TraversalChoice", travChoice);
-	netplay_section.Set("Nickname", WxStrToStr(m_nickname_text->GetValue()));
+	//netplay_section.Set("Nickname", WxStrToStr(m_nickname_text->GetValue()));
+	KAR::Netplay::User::currentUserLoggedIn.displayName = WxStrToStr(m_nickname_text->GetValue());
 
 	if (m_direct_traversal->GetCurrentSelection() == DIRECT_CHOICE)
-		netplay_section.Set("Address", WxStrToStr(m_connect_ip_text->GetValue()));
+		//netplay_section.Set("Address", WxStrToStr(m_connect_ip_text->GetValue()));
+		KAR::Netplay::Lobby::currentLobbyInstance.IP_HostCode = WxStrToStr(m_connect_ip_text->GetValue());
 	else
-		netplay_section.Set("HostCode", WxStrToStr(m_connect_hashcode_text->GetValue()));
+		//netplay_section.Set("HostCode", WxStrToStr(m_connect_hashcode_text->GetValue()));
+		KAR::Netplay::Lobby::currentLobbyInstance.IP_HostCode = WxStrToStr(m_connect_hashcode_text->GetValue());
 
-	netplay_section.Set("ConnectPort", WxStrToStr(m_connect_port_text->GetValue()));
-	netplay_section.Set("HostPort", WxStrToStr(m_host_port_text->GetValue()));
+	//netplay_section.Set("ConnectPort", WxStrToStr(m_connect_port_text->GetValue()));
+	//netplay_section.Set("HostPort", WxStrToStr(m_host_port_text->GetValue()));
+	KAR::Netplay::Lobby::currentLobbyInstance.host_connect_port = WxStrToStr(m_connect_port_text->GetValue());
+	KAR::Netplay::Lobby::currentLobbyInstance.host_connect_port = WxStrToStr(m_host_port_text->GetValue());
+
 	netplay_section.Set("ListenPort", m_traversal_listen_port_enabled->IsChecked() ?
 		m_traversal_listen_port->GetValue() :
 		0);
@@ -315,6 +321,10 @@ NetPlaySetupFrame::~NetPlaySetupFrame()
 #endif
 
 	inifile.Save(dolphin_ini);
+
+	//writes to file
+	//KAR::Netplay::Lobby::currentLobbyInstance.WriteLobbyDataToDefaultLobbyFile();
+
 	main_frame->g_NetPlaySetupDiag = nullptr;
 }
 
