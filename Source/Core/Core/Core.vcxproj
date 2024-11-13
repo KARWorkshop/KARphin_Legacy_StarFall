@@ -211,6 +211,7 @@
     <ClCompile Include="IPC_HLE\WII_IPC_HLE_WiiMote.cpp" />
     <ClCompile Include="IPC_HLE\WII_Socket.cpp" />
     <ClCompile Include="IPC_HLE\WiiNetConfig.cpp" />
+    <ClCompile Include="KAR\Netplay\LobbyData\Lobby.cpp" />
     <ClCompile Include="KAR\Netplay\NetUser.cpp" />
     <ClCompile Include="MemTools.cpp" />
     <ClCompile Include="Movie.cpp" />

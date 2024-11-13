@@ -2,6 +2,8 @@
 
 //defines the settings for a Lobby
 
+#include <string>
+
 namespace KAR
 {
 	namespace Netplay
@@ -24,9 +26,10 @@ namespace KAR
 			//defines a lobby
 			struct Lobby
 			{
-	            //the host code associated with the lobby
-	            //the port of the host
-				//is the lobby open to everyone online, LAN, direct connect, or friends only
+	            std::string IP_HostCode = "127.0.0.1",    // the host code/IP associated with the lobby
+	            host_connect_port = "2626"; // the port of the host
+	            PublicStatus publicStatus = PublicStatus::Public_Everyone; // is the lobby open to everyone online, LAN,
+	                                                                       // direct connect, or friends only
 
 				//the name of the lobby
 
@@ -53,6 +56,7 @@ namespace KAR
 
 				//loads a lobby data from a shareable JSON invite file
 			};
+            Lobby currentLobbyInstance;
 		}
 	}
 }

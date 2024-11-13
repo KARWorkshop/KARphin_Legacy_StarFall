@@ -26,6 +26,7 @@
 #include "DolphinWX/WxUtils.h"
 
 #include "Core/KAR/Netplay/NetUser.hpp"
+#include "Core/KAR/Netplay/LobbyData/Lobby.hpp"
 
 namespace
 {
@@ -54,22 +55,22 @@ NetPlaySetupFrame::NetPlaySetupFrame(wxWindow* const parent, const CGameListCtrl
 		//netplay_section.Get("Nickname", &temp, "Player");
 		m_nickname_text->SetValue(StrToWxStr(KAR::Netplay::User::currentUserLoggedIn.displayName));
 
-		temp.clear();
-		netplay_section.Get("HostCode", &temp, "00000000");
-		m_connect_hashcode_text->SetValue(StrToWxStr(temp));
+		//temp.clear();
+		//netplay_section.Get("HostCode", &temp, "00000000");
+		m_connect_hashcode_text->SetValue(StrToWxStr(KAR::Netplay::Lobby::currentLobbyInstance.IP_HostCode));
 
-		temp.clear();
-		netplay_section.Get("Address", &temp, "127.0.0.1");
-		m_connect_ip_text->SetValue(StrToWxStr(temp));
+		//temp.clear();
+		//netplay_section.Get("Address", &temp, "127.0.0.1");
+		m_connect_ip_text->SetValue(StrToWxStr(KAR::Netplay::Lobby::currentLobbyInstance.IP_HostCode));
 
-		temp.clear();
-		netplay_section.Get("ConnectPort", &temp,
-			std::to_string(NetPlayHostConfig::DEFAULT_LISTEN_PORT));
-		m_connect_port_text->SetValue(StrToWxStr(temp));
+		//temp.clear();
+		//netplay_section.Get("ConnectPort", &temp,
+		//	std::to_string(NetPlayHostConfig::DEFAULT_LISTEN_PORT));
+		m_connect_port_text->SetValue(StrToWxStr(KAR::Netplay::Lobby::currentLobbyInstance.host_connect_port));
 
-		temp.clear();
-		netplay_section.Get("HostPort", &temp, std::to_string(NetPlayHostConfig::DEFAULT_LISTEN_PORT));
-		m_host_port_text->SetValue(StrToWxStr(temp));
+		//temp.clear();
+		//netplay_section.Get("HostPort", &temp, std::to_string(NetPlayHostConfig::DEFAULT_LISTEN_PORT));
+		m_host_port_text->SetValue(StrToWxStr(KAR::Netplay::Lobby::currentLobbyInstance.host_connect_port));
 
 		temp.clear();
 		if (netplay_section.Get("SelectedHostGame", &temp, ""))

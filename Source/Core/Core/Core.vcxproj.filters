@@ -755,6 +755,7 @@
       <Filter>IPC HLE %28IOS/Starlet%29\USB</Filter>
     </ClCompile>
     <ClCompile Include="KAR\Netplay\NetUser.cpp" />
+    <ClCompile Include="KAR\Netplay\LobbyData\Lobby.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BootManager.h" />
