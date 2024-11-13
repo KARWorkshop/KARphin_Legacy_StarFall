@@ -1229,9 +1229,15 @@ int wxCmdLineParser::Parse(bool showUsage)
                     }
                 }
 
-                errorMsg << wxString::Format(_("The value for the option '%s' must be specified. If you are attempting to run the Star Fall Client(s) directly through the exe. Not how this works. You must use the KARphin Frontend. It's called \"KARphin\" and the first thing you see. You can't miss it.\n\n\nAGAIN, YOU ARE NOT SUPPOSED TO RUN THIS EXE DIRECTLY!\n\nThank you :3"),
-                                             optName.c_str())
-                         << wxT('\n');
+                //if it's a K value that we use for instalizing the KARphin
+               
+                if (!strcmp(optName.c_str(), "k (or karphin_bridge)"))
+                {
+                    errorMsg << wxString::Format(_("You can't run the Star Fall Client(s) directly. You have to use the KARphin frontend. It's the first thing you see when opening the KAR Netplay folder, you can't miss it. It's called \"KARphin\".\n\n\nAGAIN, YOU ARE NOT SUPPOSED TO RUN THIS EXE DIRECTLY!\n\nThank you :3"),
+                        optName.c_str()) << wxT('\n');
+                }
+                else
+                    errorMsg << wxString::Format(_("The value for the option '%s' must be specified."), optName.c_str()) << wxT('\n');
 
                 ok = false;
             }
@@ -1271,7 +1277,8 @@ int wxCmdLineParser::Parse(bool showUsage)
             if ( showUsage )
                 usage = GetUsageString();
 
-            msgOut->Printf( wxT("%s%s"), usage.c_str(), errorMsg.c_str() );
+           
+           msgOut->Printf( wxT("%s%s"), usage.c_str(), errorMsg.c_str() );
         }
         else
         {
