@@ -399,7 +399,7 @@
     <ClCompile Include="HW\EXI_DeviceMic.cpp">
       <Filter>HW %28Flipper/Hollywood%29\EXI - Expansion Interface</Filter>
     </ClCompile>
-	<ClCompile Include="HW\EXI_DeviceSlippi.cpp">
+    <ClCompile Include="HW\EXI_DeviceSlippi.cpp">
       <Filter>HW %28Flipper/Hollywood%29\EXI - Expansion Interface</Filter>
     </ClCompile>
     <ClCompile Include="HW\BBA-TAP\TAP_Win32.cpp">
@@ -965,7 +965,7 @@
     <ClInclude Include="HW\EXI_DeviceMic.h">
       <Filter>HW %28Flipper/Hollywood%29\EXI - Expansion Interface</Filter>
     </ClInclude>
-	<ClInclude Include="HW\EXI_DeviceSlippi.h">
+    <ClInclude Include="HW\EXI_DeviceSlippi.h">
       <Filter>HW %28Flipper/Hollywood%29\EXI - Expansion Interface</Filter>
     </ClInclude>
     <ClInclude Include="HW\BBA-TAP\TAP_Win32.h">
@@ -1289,6 +1289,7 @@
       <Filter>IPC HLE %28IOS/Starlet%29\USB</Filter>
     </ClInclude>
     <ClInclude Include="DSP\Jit\DSPEmitter.h" />
+    <ClInclude Include="KAR\json.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />

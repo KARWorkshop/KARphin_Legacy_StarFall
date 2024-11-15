@@ -102,6 +102,15 @@ bool DolphinApp::Initialize(int& c, wxChar** v)
 
 bool DolphinApp::OnInit()
 {
+	//checks KARphin versioning and if out of date, update
+	/*
+	if(!KAR::Util::CheckNetplayVersion())
+	{
+		KAR::KWQI::UpdateNetplayClient();
+	    return false;
+	}
+	*/
+
 	std::lock_guard<std::mutex> lk(s_init_mutex);
 	if (!wxApp::OnInit())
 		return false;
