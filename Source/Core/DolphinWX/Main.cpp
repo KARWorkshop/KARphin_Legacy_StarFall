@@ -306,24 +306,27 @@ void DolphinApp::AfterInit()
 	if (!m_batch_mode)
 		main_frame->UpdateGameList();
 
-	if (!SConfig::GetInstance().m_analytics_permission_asked)
+	SConfig::GetInstance().m_analytics_enabled = false; //always turn analytics off
+
+	//tell the user about compatability mode
+	if (!SConfig::GetInstance().KAR_hasBeenToldAboutCompabilityMode)
 	{
 		int answer =
-			wxMessageBox(_("If authorized, Dolphin can collect data on its performance, "
-				"feature usage, and configuration, as well as data on your system's "
-				"hardware and operating system.\n\n"
-				"No private data is ever collected. This data helps us understand "
-				"how people and emulated games use Dolphin and prioritize our "
-				"efforts. It also helps us identify rare configurations that are "
-				"causing bugs, performance and stability issues.\n"
-				"This authorization can be revoked at any time through Dolphin's "
-				"settings.\n\n"
-				"Do you authorize Dolphin to report this information to Dolphin's "
-				"developers?"),
-				_("Usage statistics reporting"), wxYES_NO, main_frame);
+			wxMessageBox(_("You're in compatability mode, this is to allow you to play with the KARphin Legacy and R10 builds.\n\n"
+				"R10 and KARphin Legacy were the old netplay clients that came before Project Star Fall. "
+				"People have a fondness for their reduced input delay and lessened hardware requirement.\n\n"
+				"Project Star Fall's client uses the source of thoses builds. "
+				"But users will take time to move over to a new build or not desire ST till it's more developed. "
+				"To accomidate theses users, Star Fall's client comes with a compatability mode. "
+				"This disables a majority of ST's features (auto-FS codes, code syncing, replays, custom invites, ect), "
+				"but allows you to play with thoses users.\n"
+				"Comptability Mode can be enabled or disabled freely under the KAR toolbar item. "
+				"In the event someone who is using a older build joins your netplay session. You will be forced into Compatability Mode regardless to avoid Netplay conflicts.\n\n"
+				"Do you wish to disable Compatability Mode?"),
+				_("R10/Legacy Compatability Mode"), wxYES_NO, main_frame);
 
-		SConfig::GetInstance().m_analytics_permission_asked = true;
-		SConfig::GetInstance().m_analytics_enabled = (answer == wxYES);
+		SConfig::GetInstance().KAR_hasBeenToldAboutCompabilityMode = true;
+		SConfig::GetInstance().KAR_isInCompatabilityMode = (answer == wxYES ? false : true);
 		SConfig::GetInstance().SaveSettings();
 
 		DolphinAnalytics::Instance()->ReloadConfig();

@@ -63,6 +63,10 @@ enum MeleeLagReductionCode
 
 struct SConfig : NonCopyable
 {
+	//KAR data
+	bool KAR_hasBeenToldAboutCompabilityMode = false; //has the user been told they are in compatability mode
+	bool KAR_isInCompatabilityMode = true; //is the user in compatability mode
+
 	// Wii Devices
 	bool m_WiiSDCard;
 	bool m_WiiKeyboard;
