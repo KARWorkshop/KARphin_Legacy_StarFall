@@ -63,6 +63,8 @@
 #include <dlfcn.h>
 #endif
 
+#include "Core/KAR/Versioning.hpp"
+
 #ifdef _WIN32
 
 // Applications exporting this symbol with this value will be automatically
@@ -102,14 +104,12 @@ bool DolphinApp::Initialize(int& c, wxChar** v)
 
 bool DolphinApp::OnInit()
 {
-	//checks KARphin versioning and if out of date, update
+	//checks if we're up to date, if not, update it
 	/*
-	if(!KAR::Util::CheckNetplayVersion())
-	{
-		KAR::KWQI::UpdateNetplayClient();
-	    return false;
-	}
+	if(!KAR::Core::CheckBuildUpdateStatusAndUpdateIfNedded())
+		return false;
 	*/
+	KAR::Core::WriteBuildVersionDataToFile();
 
 	std::lock_guard<std::mutex> lk(s_init_mutex);
 	if (!wxApp::OnInit())

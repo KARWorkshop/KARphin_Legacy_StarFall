@@ -1290,6 +1290,7 @@
     </ClInclude>
     <ClInclude Include="DSP\Jit\DSPEmitter.h" />
     <ClInclude Include="KAR\json.hpp" />
+    <ClInclude Include="KAR\Versioning.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />

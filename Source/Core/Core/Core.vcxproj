@@ -423,6 +423,7 @@
     <ClInclude Include="IPC_HLE\WII_Socket.h" />
     <ClInclude Include="IPC_HLE\WiiNetConfig.h" />
     <ClInclude Include="KAR\json.hpp" />
+    <ClInclude Include="KAR\Versioning.hpp" />
     <ClInclude Include="MachineContext.h" />
     <ClInclude Include="MemTools.h" />
     <ClInclude Include="Movie.h" />

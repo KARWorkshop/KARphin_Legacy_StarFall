@@ -29,6 +29,8 @@
 #include "VideoCommon/OnScreenDisplay.h"
 #include "VideoCommon/VideoConfig.h"
 
+#include "Core/KAR/Versioning.hpp"
+
 static std::mutex crit_netplay_client;
 NetPlayClient* netplay_client = nullptr;
 NetSettings g_NetPlaySettings;
@@ -174,8 +176,20 @@ bool NetPlayClient::Connect()
 {
 	// send connect message
 	sf::Packet spac;
-	spac << scm_rev_git_str;
-	spac << netplay_dolphin_ver;
+	
+	//if it incompatability mode
+	if (SConfig::GetInstance().KAR_isInCompatabilityMode)
+	{
+		spac << KAR_VERSION_MAJOR;
+	}
+
+	//if not
+	else
+	{
+		spac << LEGACY_R10_VERSION_STRING;
+		spac << netplay_dolphin_ver;
+	}
+
 	spac << m_player_name;
 	Send(spac);
 	enet_host_flush(m_client);
