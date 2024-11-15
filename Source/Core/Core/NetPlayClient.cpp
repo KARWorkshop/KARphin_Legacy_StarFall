@@ -178,7 +178,7 @@ bool NetPlayClient::Connect()
 	sf::Packet spac;
 	
 	//if it incompatability mode
-	if (SConfig::GetInstance().KAR_isInCompatabilityMode)
+	if (!SConfig::GetInstance().KAR_isInCompatabilityMode)
 	{
 		spac << KAR_VERSION_MAJOR;
 	}
