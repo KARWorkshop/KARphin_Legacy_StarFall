@@ -75,12 +75,19 @@ void CreateDirectories()
 
 void SetUserDirectory(const std::string& custom_path)
 {
+    //if custom path is provided
   if (!custom_path.empty())
   {
     File::CreateFullPath(custom_path + DIR_SEP);
     File::SetUserPath(D_USER_IDX, custom_path + DIR_SEP);
     return;
   }
+
+  // otherwise we always use the one called "KARphin_Tourny_Editon_Settings"
+  const std::string karphinUserDirDefault = "KARphin_TournyEditon_Settings";
+  File::CreateFullPath(karphinUserDirDefault + DIR_SEP);
+  File::SetUserPath(D_USER_IDX, karphinUserDirDefault + DIR_SEP);
+  return;
 
   std::string user_path = "";
 #ifdef _WIN32
