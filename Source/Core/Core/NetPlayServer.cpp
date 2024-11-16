@@ -252,27 +252,13 @@ unsigned int NetPlayServer::OnConnect(ENetPeer* socket)
 	socket->data = new PlayerId(pid);
 
 	//parses out the on connect packet
-	/*
-	//major version || if in compatablity mode, this is interoperated as the scm_rev_git_str
-	
-	//if the versions are incompatable, we have a exception for compatability mode
-	if (!SConfig::GetInstance().KAR_isInCompatabilityMode && npver != scm_rev_git_str)
-		return CON_ERR_VERSION_MISMATCH;
-	else if (SConfig::GetInstance().KAR_isInCompatabilityMode && npver != scm_rev_git_str)
-		return CON_ERR_VERSION_MISMATCH;
-
-	//minor version
-	//hot fix
-	*/
-
 	std::string majorVerson;
 	rpac >> majorVerson;
 	
 	// Dolphin netplay version
-	if (!SConfig::GetInstance().KAR_isInCompatabilityMode && majorVerson != KAR_VERSION_MAJOR)
+	if (!SConfig::GetInstance().KAR_isInCompatabilityMode && majorVerson != KAR_VERSION_MAJOR ||
+	    SConfig::GetInstance().KAR_isInCompatabilityMode && majorVerson != LEGACY_R10_VERSION_STRING)
 		return CON_ERR_VERSION_MISMATCH;
-	//else if (SConfig::GetInstance().KAR_isInCompatabilityMode && majorVerson != LEGACY_R10_VERSION_STRING)
-	//	return CON_ERR_VERSION_MISMATCH;
 
 	// game is currently running
 	if (m_is_running)

@@ -181,7 +181,7 @@ bool NetPlayClient::Connect()
 	if (!SConfig::GetInstance().KAR_isInCompatabilityMode)
 	{
 		spac << KAR_VERSION_MAJOR;
-		spac << netplay_dolphin_ver;
+		spac << std::string(std::string(KAR_VERSION_MAJOR) + "." + KAR_VERSION_MINOR + "." + KAR_VERSION_HOT_FIX);
 	}
 
 	//if not

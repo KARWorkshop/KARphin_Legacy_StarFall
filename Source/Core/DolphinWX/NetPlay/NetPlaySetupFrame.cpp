@@ -188,15 +188,22 @@ wxNotebook* NetPlaySetupFrame::CreateNotebookGUI(wxWindow* parent)
 		wxButton* const connect_btn = new wxButton(connect_tab, wxID_ANY, _("Connect"));
 		connect_btn->Bind(wxEVT_BUTTON, &NetPlaySetupFrame::OnJoin, this);
 
-		wxStaticText* const alert_lbl = new wxStaticText(
+		wxStaticText *const alert_lbl = new wxStaticText(
 			connect_tab, wxID_ANY,
-			_("ALERT:\n\n"
-				"All players must use the same Dolphin version.\n"
-				"All memory cards, SD cards and cheats must be identical between players or disabled.\n"
-				"If DSP LLE is used, DSP ROMs must be identical between players.\n"
-				"If connecting directly, the host must have the chosen UDP port open/forwarded!\n"
-				"\n"
-				"Wii Remote support in netplay is experimental and should not be expected to work.\n"));
+		    _((SConfig::GetInstance().KAR_isInCompatabilityMode == true
+		           ? "----YOU ARE IN COMPATABILITY MODE----\n"
+		             "Quality of life features have been disabled. To not use compatability mode, all users must be "
+		             "using the Star Fall client.\n\n"
+		             "The latest build can be found at the KAR Workshop "
+		             "(https://karworkshop.sean-mott.com/#download)\n\n"
+		             "The following features have been diabled\n"
+		            "-auto fullscreen codes\n"
+		            "-saving debug menu settings between sessions\n"
+					 "-gecko code syncing\n" 
+					 "-replays\n"
+		            "-auto input buffer calculation\n"
+		             "-other minor tweaks"
+		           : "")));
 
 		wxBoxSizer* const top_szr = new wxBoxSizer(wxHORIZONTAL);
 		top_szr->Add(m_ip_lbl, 0, wxALIGN_CENTER_VERTICAL);

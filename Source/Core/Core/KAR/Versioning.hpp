@@ -19,6 +19,8 @@ namespace KAR
 #define KAR_VERSION_HOT_FIX "0"
 #define KAR_VERSION_BUILD "Stable"
 
+		//we store extra OS data here so we can tell the diff on platforms
+
 		//writes the version data to a file
 		static inline void WriteBuildVersionDataToFile()
 		{
