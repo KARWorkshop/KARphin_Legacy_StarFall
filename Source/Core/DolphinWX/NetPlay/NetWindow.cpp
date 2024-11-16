@@ -289,12 +289,12 @@ wxSizer* NetPlayDialog::CreateBottomGUI(wxWindow* parent)
 
 		KAR_playMusicViaKARJukebox = new wxCheckBox(parent, wxID_ANY, _("Play Music Via KAR Jukebox"));
 		//m_memcard_write = new wxCheckBox(parent, wxID_ANY, _("Enable memory cards/SD"));
+		KAR_playMusicViaKARJukebox->SetToolTip("This disables the music in-game, but will run it externally via a fork of Slippi Jukebox.\n"
+		"This feature is not use-able in Compatability Mode");
 
 		if (isInCompatabilityMode)
 		{
-			KAR_playMusicViaKARJukebox->SetToolTip(
-			    "We don't support playing music externally in Compatability Mode. Disable it and netplay with other "
-			      "Star Fall Clients, in order to use this feature.");
+			
 			KAR_playMusicViaKARJukebox->Disable();
 			
 		}
@@ -332,11 +332,11 @@ wxSizer* NetPlayDialog::CreateBottomGUI(wxWindow* parent)
 
 	KAR_autoInjectFSCode = new wxCheckBox(parent, wxID_ANY, _("Auto Inject FS Codes"));
 	//m_record_chkbox = new wxCheckBox(parent, wxID_ANY, _("Record inputs"));
+	KAR_autoInjectFSCode->SetToolTip("Auto inject the Fullscreen Code for your port. Disable this to set them manually or use the multi-screen local screen code.\n"
+	"This feature is not use-able in Compatability Mode");
+	
 	if (isInCompatabilityMode)
 	{
-		KAR_autoInjectFSCode->SetToolTip(
-		    "We don't support auto injecting FS codes in Compatability Mode. Disable it and netplay with other "
-		      "Star Fall Clients, in order to use this feature.");
 		KAR_autoInjectFSCode->Disable();
 		
 	}
