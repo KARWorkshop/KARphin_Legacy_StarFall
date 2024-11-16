@@ -256,6 +256,8 @@ wxSizer* NetPlayDialog::CreateBottomGUI(wxWindow* parent)
 	m_player_padbuf_spin->Bind(wxEVT_SPINCTRL, &NetPlayDialog::OnAdjustPlayerBuffer, this);
 	m_player_padbuf_spin->SetMinSize(WxUtils::GetTextWidgetMinSize(m_player_padbuf_spin));
 
+	wxCheckBox* KAR_autoInjectFSCode; // option to auto inject FS codes
+
 	if (m_is_hosting)
 	{
 		m_start_btn = new wxButton(parent, wxID_ANY, _("Start"));
@@ -285,7 +287,8 @@ wxSizer* NetPlayDialog::CreateBottomGUI(wxWindow* parent)
 		//	//}
         //}
 
-		m_memcard_write = new wxCheckBox(parent, wxID_ANY, _("Enable memory cards/SD"));
+		KAR_playMusicViaKARJukebox = new wxCheckBox(parent, wxID_ANY, _("Play Music Via KAR Jukebox"));
+		//m_memcard_write = new wxCheckBox(parent, wxID_ANY, _("Enable memory cards/SD"));
 
 		bottom_szr->Add(m_start_btn, 0, wxALIGN_CENTER_VERTICAL);
 		bottom_szr->Add(minimum_buffer_lbl, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
@@ -308,7 +311,7 @@ wxSizer* NetPlayDialog::CreateBottomGUI(wxWindow* parent)
         //    bottom_szr->Add(chkbox_sizer, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
         //}
         //else
-		    bottom_szr->Add(m_memcard_write, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
+		bottom_szr->Add(KAR_playMusicViaKARJukebox, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
 
 		bottom_szr->AddSpacer(space5);
 	}
@@ -318,12 +321,13 @@ wxSizer* NetPlayDialog::CreateBottomGUI(wxWindow* parent)
 		bottom_szr->Add(m_player_padbuf_spin, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
 	}
 
-	m_record_chkbox = new wxCheckBox(parent, wxID_ANY, _("Record inputs"));
+	KAR_autoInjectFSCode = new wxCheckBox(parent, wxID_ANY, _("Auto Inject FS Codes"));
+	//m_record_chkbox = new wxCheckBox(parent, wxID_ANY, _("Record inputs"));
 
 	wxButton* quit_btn = new wxButton(parent, wxID_ANY, _("Quit Netplay"));
 	quit_btn->Bind(wxEVT_BUTTON, &NetPlayDialog::OnQuit, this);
 
-	bottom_szr->Add(m_record_chkbox, 0, wxALIGN_CENTER_VERTICAL);
+	bottom_szr->Add(KAR_autoInjectFSCode, 0, wxALIGN_CENTER_VERTICAL);
 
 	bottom_szr->AddStretchSpacer();
 	bottom_szr->Add(quit_btn, 0, wxALIGN_CENTER_VERTICAL);
@@ -418,6 +422,9 @@ bool NetPlayDialog::IsPALMelee()
 void NetPlayDialog::GetNetSettings(NetSettings& settings)
 {
 	SConfig& instance = SConfig::GetInstance();
+	
+	const bool useMemCards = (instance.KAR_isInCompatabilityMode ? false : true);
+
 	settings.m_CPUthread = instance.bCPUThread;
 	settings.m_CPUcore = instance.iCPUCore;
 	settings.m_EnableCheats = true; //cheats are always on
@@ -427,11 +434,11 @@ void NetPlayDialog::GetNetSettings(NetSettings& settings)
 	settings.m_PAL60 = instance.bPAL60;
 	settings.m_DSPHLE = instance.bDSPHLE;
 	settings.m_DSPEnableJIT = instance.m_DSPEnableJIT;
-	settings.m_WriteToMemcard = m_memcard_write->GetValue();
+	settings.m_WriteToMemcard = useMemCards; // m_memcard_write->GetValue();
 	settings.m_OCEnable = instance.m_OCEnable;
 	settings.m_OCFactor = instance.m_OCFactor;
-	settings.m_EXIDevice[0] = m_memcard_write->GetValue() ? instance.m_EXIDevice[0] : EXIDEVICE_NONE;
-	settings.m_EXIDevice[1] = m_memcard_write->GetValue() ? instance.m_EXIDevice[1] : EXIDEVICE_NONE;
+	settings.m_EXIDevice[0] = useMemCards ? instance.m_EXIDevice[0] : EXIDEVICE_NONE;
+	settings.m_EXIDevice[1] = useMemCards ? instance.m_EXIDevice[1] : EXIDEVICE_NONE;
     settings.m_LagReduction = MELEE_LAG_REDUCTION_CODE_UNSET; //(IsNTSCMelee() && !Is20XX()) || IsPALMelee()? (MeleeLagReductionCode)(m_lag_reduction_choice->GetSelection() + 1) : MELEE_LAG_REDUCTION_CODE_UNSET;
 	settings.m_MeleeForceWidescreen = false; //IsNTSCMelee() || IsPALMelee() ? m_widescreen_force_chkbox->GetValue() : false;
 }
@@ -513,10 +520,11 @@ void NetPlayDialog::OnMsgStartGame()
 	if (m_is_hosting)
 	{
 		m_start_btn->Disable();
-		m_memcard_write->Disable();
 		m_game_btn->Disable();
 		m_player_config_btn->Disable();
         
+		KAR_playMusicViaKARJukebox->Disable();
+
         //if(IsNTSCMelee() || IsPALMelee())
         //{
         //	//if(!Is20XX())
@@ -525,7 +533,7 @@ void NetPlayDialog::OnMsgStartGame()
         //}
 	}
 
-	m_record_chkbox->Disable();
+	KAR_autoInjectFSCode->Disable();
 }
 
 void NetPlayDialog::OnMsgStopGame()
@@ -535,9 +543,10 @@ void NetPlayDialog::OnMsgStopGame()
 	if (m_is_hosting)
 	{
 		m_start_btn->Enable();
-		m_memcard_write->Enable();
 		m_game_btn->Enable();
 		m_player_config_btn->Enable();
+
+		KAR_playMusicViaKARJukebox->Enable();
 
        // if(IsNTSCMelee() || IsPALMelee())
        // {
@@ -546,7 +555,8 @@ void NetPlayDialog::OnMsgStopGame()
        //     m_widescreen_force_chkbox->Enable();
        // }
 	}
-	m_record_chkbox->Enable();
+	
+	KAR_autoInjectFSCode->Enable();
 }
 
 void NetPlayDialog::OnAdjustMinimumBuffer(wxCommandEvent& event)
@@ -912,7 +922,7 @@ void NetPlayDialog::OnPlayerSelect(wxCommandEvent&)
 
 bool NetPlayDialog::IsRecording()
 {
-	return m_record_chkbox->GetValue();
+	return (SConfig::GetInstance().KAR_isInCompatabilityMode ? false : true); // we are always recording replays if not in compatability mode
 }
 
 void NetPlayDialog::OnCopyIP(wxCommandEvent&)
