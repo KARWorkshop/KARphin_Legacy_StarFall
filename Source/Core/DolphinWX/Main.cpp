@@ -329,8 +329,7 @@ void DolphinApp::AfterInit()
 				"To accomidate theses users, Star Fall's client comes with a compatability mode. "
 				"This disables a majority of ST's features (auto-FS codes, code syncing, replays, custom invites, ect), "
 				"but allows you to play with thoses users.\n"
-				"Comptability Mode can be enabled or disabled freely under the KAR toolbar item. "
-				"In the event someone who is using a older build joins your netplay session. You will be forced into Compatability Mode regardless to avoid Netplay conflicts.\n\n"
+				"Comptability Mode can be enabled or disabled freely under the KAR toolbar item.\n\n"
 				"Do you wish to disable Compatability Mode?"),
 				_("R10/Legacy Compatability Mode"), wxYES_NO, main_frame);
 
@@ -338,7 +337,7 @@ void DolphinApp::AfterInit()
 		SConfig::GetInstance().KAR_isInCompatabilityMode = (answer == wxYES ? false : true);
 		SConfig::GetInstance().SaveSettings();
 
-		DolphinAnalytics::Instance()->ReloadConfig();
+		//DolphinAnalytics::Instance()->ReloadConfig();
 	}
 
 	if (m_confirm_stop)
