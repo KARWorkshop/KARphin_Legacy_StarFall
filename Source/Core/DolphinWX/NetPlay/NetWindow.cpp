@@ -463,6 +463,10 @@ void NetPlayDialog::OnStart(wxCommandEvent&)
 	if (!should_start)
 		return;
 
+	//resets the hide first desync flag
+	//this flag hides the first desync caused by the FS codes
+	KAR_haveWeHiddenFirstDesyncCausedbyFSCodes = false;
+
 	NetSettings settings;
 	GetNetSettings(settings);
 	netplay_server->SetNetSettings(settings);
@@ -601,6 +605,14 @@ void NetPlayDialog::OnPlayerPadBufferChanged(u32 buffer)
 
 void NetPlayDialog::OnDesync(u32 frame, const std::string& player)
 {
+	//we hide the desync caused by FS codes, at least the first time a desync of it's kind is caused.
+	//frame 0 or 1 desyncs we don't hide, as thoses mean codes are wrong
+	if (!SConfig::GetInstance().KAR_isInCompatabilityMode && !KAR_haveWeHiddenFirstDesyncCausedbyFSCodes && frame > 3)
+	{
+		KAR_haveWeHiddenFirstDesyncCausedbyFSCodes = true;
+		return;
+	}
+
 	m_desync_frame = frame;
 	m_desync_player = player;
 	wxThreadEvent evt(wxEVT_THREAD, NP_GUI_EVT_DESYNC);
@@ -755,6 +767,10 @@ void NetPlayDialog::OnThread(wxThreadEvent& event)
 	{
 		std::string msg = "Possible desync detected from player " + m_desync_player + " on frame " +
 			std::to_string(m_desync_frame);
+
+		//if the frame is less then 3, we suggest it's a issue caused by te codes
+		if (m_desync_frame < 3)
+			msg += "\nThis can mean your codes are not synced properly. Please check your codes.";
 
 		AddChatMessage(ChatMessageType::Error, msg);
 

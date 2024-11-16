@@ -147,6 +147,8 @@ private:
 	bool IsModdedKAR();
 	bool IsKARSupportsWideScreen();
 
+	bool KAR_haveWeHiddenFirstDesyncCausedbyFSCodes = false; //this flag hides the first desync caused by the FS codes
+
 	wxListBox* m_player_lbox;
 	wxTextCtrl* m_chat_text;
 	wxTextCtrl* m_chat_msg_text;
