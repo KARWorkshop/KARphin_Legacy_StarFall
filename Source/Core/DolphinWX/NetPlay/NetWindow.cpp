@@ -256,7 +256,7 @@ wxSizer* NetPlayDialog::CreateBottomGUI(wxWindow* parent)
 	m_player_padbuf_spin->Bind(wxEVT_SPINCTRL, &NetPlayDialog::OnAdjustPlayerBuffer, this);
 	m_player_padbuf_spin->SetMinSize(WxUtils::GetTextWidgetMinSize(m_player_padbuf_spin));
 
-	wxCheckBox* KAR_autoInjectFSCode; // option to auto inject FS codes
+	const bool isInCompatabilityMode = SConfig::GetInstance().KAR_isInCompatabilityMode;
 
 	if (m_is_hosting)
 	{
@@ -289,6 +289,15 @@ wxSizer* NetPlayDialog::CreateBottomGUI(wxWindow* parent)
 
 		KAR_playMusicViaKARJukebox = new wxCheckBox(parent, wxID_ANY, _("Play Music Via KAR Jukebox"));
 		//m_memcard_write = new wxCheckBox(parent, wxID_ANY, _("Enable memory cards/SD"));
+
+		if (isInCompatabilityMode)
+		{
+			KAR_playMusicViaKARJukebox->SetToolTip(
+			    "We don't support playing music externally in Compatability Mode. Disable it and netplay with other "
+			      "Star Fall Clients, in order to use this feature.");
+			KAR_playMusicViaKARJukebox->Disable();
+			
+		}
 
 		bottom_szr->Add(m_start_btn, 0, wxALIGN_CENTER_VERTICAL);
 		bottom_szr->Add(minimum_buffer_lbl, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
@@ -323,6 +332,14 @@ wxSizer* NetPlayDialog::CreateBottomGUI(wxWindow* parent)
 
 	KAR_autoInjectFSCode = new wxCheckBox(parent, wxID_ANY, _("Auto Inject FS Codes"));
 	//m_record_chkbox = new wxCheckBox(parent, wxID_ANY, _("Record inputs"));
+	if (isInCompatabilityMode)
+	{
+		KAR_autoInjectFSCode->SetToolTip(
+		    "We don't support auto injecting FS codes in Compatability Mode. Disable it and netplay with other "
+		      "Star Fall Clients, in order to use this feature.");
+		KAR_autoInjectFSCode->Disable();
+		
+	}
 
 	wxButton* quit_btn = new wxButton(parent, wxID_ANY, _("Quit Netplay"));
 	quit_btn->Bind(wxEVT_BUTTON, &NetPlayDialog::OnQuit, this);
@@ -517,13 +534,16 @@ void NetPlayDialog::OnMsgStartGame()
 {
 	wxThreadEvent evt(wxEVT_THREAD, NP_GUI_EVT_START_GAME);
 	GetEventHandler()->AddPendingEvent(evt);
+	
+	const bool isInCompatabilityMode = SConfig::GetInstance().KAR_isInCompatabilityMode;
 	if (m_is_hosting)
 	{
 		m_start_btn->Disable();
 		m_game_btn->Disable();
 		m_player_config_btn->Disable();
         
-		KAR_playMusicViaKARJukebox->Disable();
+		if (!isInCompatabilityMode)
+			KAR_playMusicViaKARJukebox->Disable();
 
         //if(IsNTSCMelee() || IsPALMelee())
         //{
@@ -533,20 +553,24 @@ void NetPlayDialog::OnMsgStartGame()
         //}
 	}
 
-	KAR_autoInjectFSCode->Disable();
+	if (!isInCompatabilityMode)
+		KAR_autoInjectFSCode->Disable();
 }
 
 void NetPlayDialog::OnMsgStopGame()
 {
 	wxThreadEvent evt(wxEVT_THREAD, NP_GUI_EVT_STOP_GAME);
 	GetEventHandler()->AddPendingEvent(evt);
+	
+	const bool isInCompatabilityMode = SConfig::GetInstance().KAR_isInCompatabilityMode;
 	if (m_is_hosting)
 	{
 		m_start_btn->Enable();
 		m_game_btn->Enable();
 		m_player_config_btn->Enable();
 
-		KAR_playMusicViaKARJukebox->Enable();
+		if (!isInCompatabilityMode)
+			KAR_playMusicViaKARJukebox->Enable();
 
        // if(IsNTSCMelee() || IsPALMelee())
        // {
@@ -556,7 +580,8 @@ void NetPlayDialog::OnMsgStopGame()
        // }
 	}
 	
-	KAR_autoInjectFSCode->Enable();
+	if (!isInCompatabilityMode)
+		KAR_autoInjectFSCode->Enable();
 }
 
 void NetPlayDialog::OnAdjustMinimumBuffer(wxCommandEvent& event)
