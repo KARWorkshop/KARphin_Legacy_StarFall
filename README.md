@@ -1,9 +1,9 @@
-# Dolphin - A GameCube and Wii Emulator
+# KARphin - ~~A GameCube and Wii~~ A Kirby Air Ride Netplay Emulator
 
 [Homepage](https://dolphin-emu.org/) | [Project Site](https://github.com/dolphin-emu/dolphin) | [Forums](https://forums.dolphin-emu.org/) | [Wiki](https://wiki.dolphin-emu.org/) | [Issue Tracker](https://bugs.dolphin-emu.org/projects/emulator/issues) | [Coding Style](https://github.com/dolphin-emu/dolphin/blob/master/Contributing.md) | [Transifex Page](https://www.transifex.com/projects/p/dolphin-emu/)
 
-Dolphin is an emulator for running GameCube and Wii games on Windows,
-Linux, macOS, and recent Android devices. It's licensed under the terms
+KARphin is an emulator for running Kirby Air Ride Netplay on Windows,
+Linux, Steam Deck, and macOS. It's licensed under the terms
 of the GNU General Public License, version 2 or later (GPLv2+).
 
 Please read the [FAQ](https://dolphin-emu.org/docs/faq/) before using Dolphin.
@@ -22,52 +22,43 @@ Please read the [FAQ](https://dolphin-emu.org/docs/faq/) before using Dolphin.
     * A reasonably modern graphics card (Direct3D 10.0 / OpenGL 3.0).
     * A graphics card that supports Direct3D 11 / OpenGL 4.4 is recommended.
 
-### Android
-* OS
-    * Android (5.0 Lollipop or higher).
-* Processor
-    * An ARM processor with support for 64-bit applications. (An Intel x86 processor could also work in theory, but no known x86 devices support 64-bit applications.)
-* Graphics
-    * A graphics processor that supports OpenGL ES 3.0 or higher. Performance varies heavily with [driver quality](https://dolphin-emu.org/blog/2013/09/26/dolphin-emulator-and-opengl-drivers-hall-fameshame/).
-    * A graphics processor that supports standard desktop OpenGL features is recommended for best performance.
+KARphin can only be installed on devices that satisfy the above requirements. Attempting to install on an unsupported device will fail and display an error message.
 
-Dolphin can only be installed on devices that satisfy the above requirements. Attempting to install on an unsupported device will fail and display an error message.
+## Building
 
-## Building for Windows
-Use the solution file `Source/dolphin-emu.sln` to build Dolphin on Windows.
+Always grab the latest release or dev branch and the submodules.
+
+```
+git clone --recurse-submodules --jobs 8 https://github.com/KARWorkshop/KARphin_Legacy_StarFall.git -b <Branch Here>
+```
+
+KARphin requires [CMake](http://www.cmake.org/) for systems other than Windows. Many libraries are
+bundled with Dolphin and used if they're not installed on your system. CMake
+will inform you if a bundled library is used or if you need to install any
+missing packages yourself.
+
+### Building for Windows
+Use the solution file `Source/dolphin-emu.sln` to build KARphin on Windows.
 ~~Visual Studio 2015 Update 2 is a hard requirement. Other compilers might be
 able to build Dolphin on Windows but have not been tested and are not
 recommended to be used. Git and Windows 10 SDK 10.0.10586.0 must be installed.~~
 We have updated it use Visual Studio 2019 (build tools V142) and Windows SDK 10.0.177630.
+
+We also have a bat file that builds the solution for you. Just run 'BuildWindows.bat'
 
 An installer can be created by using the `Installer.nsi` script in the
 Installer directory. This will require the Nullsoft Scriptable Install System
 (NSIS) to be installed. Creating an installer is not necessary to run Dolphin
 since the Binary directory contains a working Dolphin distribution.
 
-## Building for Linux and macOS
-Dolphin requires [CMake](http://www.cmake.org/) for systems other than Windows. Many libraries are
-bundled with Dolphin and used if they're not installed on your system. CMake
-will inform you if a bundled library is used or if you need to install any
-missing packages yourself.
+### Build on MacOS
 
-### macOS Build Steps:
 1. `mkdir build`
 2. `cd build`
 3. `cmake ..`
 4. `make`
 
 An application bundle will be created in `./Binaries`.
-
-### Linux Global Build Steps:
-
-To install to your system.
-
-1. `mkdir build`
-2. `cd build`
-3. `cmake ..`
-4. `make`
-5. `sudo make install`
 
 ### Linux Local Build Steps:
 
@@ -91,16 +82,18 @@ Or useful for having multiple distinct Dolphin setups for testing/development/TA
 5. `cp -r ../Data/Sys/ Binaries/`
 6. `touch Binaries/portable.txt`
 
-## Building for Android
+### Building for Android
 
-These instructions assume familiarity with Android development. If you do not have an
-Android dev environment set up, see [AndroidSetup.md](AndroidSetup.md).
+I have no desire to support Android besides *maybe* the Switch or non-phone OSes. - Jas
 
-If using Android Studio, import the Gradle project located in `./Source/Android`. 
+~~These instructions assume familiarity with Android development. If you do not have an
+Android dev environment set up, see [AndroidSetup.md](AndroidSetup.md).~~
 
-Android apps are compiled using a build system called Gradle. Dolphin's native component,
+~~If using Android Studio, import the Gradle project located in `./Source/Android`.~~
+
+~~Android apps are compiled using a build system called Gradle. Dolphin's native component,
 however, is compiled using CMake. The Gradle script will attempt to run a CMake build
-automatically while building the Java code.
+automatically while building the Java code.~~
 
 ## Uninstalling
 When Dolphin has been installed with the NSIS installer, you can uninstall

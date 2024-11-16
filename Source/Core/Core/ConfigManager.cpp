@@ -171,6 +171,8 @@ void SConfig::SaveInterfaceSettings(IniFile& ini)
 {
 	IniFile::Section* interface = ini.GetOrCreateSection("Interface");
 
+	interface->Set("HasSeenCompatabilityModeSpeech", KAR_hasBeenToldAboutCompabilityMode);
+
 	interface->Set("ConfirmStop", bConfirmStop);
 	interface->Set("UsePanicHandlers", bUsePanicHandlers);
 	interface->Set("OnScreenDisplayMessages", bOnScreenDisplayMessages);
