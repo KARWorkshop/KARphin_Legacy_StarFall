@@ -55,6 +55,8 @@
 #include "VideoCommon/OnScreenDisplay.h"
 #include "VideoCommon/VideoConfig.h"
 
+#include "Core/KAR/Data/GameIDs.hpp"
+
 NetPlayServer* NetPlayDialog::netplay_server = nullptr;
 NetPlayClient* NetPlayDialog::netplay_client = nullptr;
 NetPlayDialog* NetPlayDialog::npd = nullptr;
@@ -266,21 +268,22 @@ wxSizer* NetPlayDialog::CreateBottomGUI(wxWindow* parent)
 		m_minimum_padbuf_spin->Bind(wxEVT_SPINCTRL, &NetPlayDialog::OnAdjustMinimumBuffer, this);
 		m_minimum_padbuf_spin->SetMinSize(WxUtils::GetTextWidgetMinSize(m_minimum_padbuf_spin));
 
-         if(IsNTSCMelee() || IsPALMelee())
-        {
-            if(!Is20XX())
-            {
-                wxArrayString choices;
-                choices.Add("Latency");
-                choices.Add("CPU");
-
-                m_lag_reduction_choice = new wxChoice(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, choices);
-                m_lag_reduction_choice->SetSelection(0);
-                m_lag_reduction_choice->Bind(wxEVT_CHOICE, &NetPlayDialog::OnAdjustLagReduction, this);
-            }
-
-            m_widescreen_force_chkbox = new wxCheckBox(parent, wxID_ANY, "Force Widescreen for streaming");
-        }
+        //if(IsModdedKAR() || IsVanillaKAR())
+		//{
+		//	wxArrayString choices;
+		//	choices.Add("Latency");
+		//	choices.Add("CPU");
+		//
+		//	m_lag_reduction_choice = new wxChoice(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, choices);
+		//	m_lag_reduction_choice->SetSelection(0);
+		//	m_lag_reduction_choice->Bind(wxEVT_CHOICE, &NetPlayDialog::OnAdjustLagReduction, this);
+		//
+		//	//if (!IsVanillaKAR())
+		//	//{
+		//	//	m_widescreen_force_chkbox = new wxCheckBox(parent, wxID_ANY, "Force Widescreen for streaming");
+		//	//	
+		//	//}
+        //}
 
 		m_memcard_write = new wxCheckBox(parent, wxID_ANY, _("Enable memory cards/SD"));
 
@@ -290,21 +293,21 @@ wxSizer* NetPlayDialog::CreateBottomGUI(wxWindow* parent)
 		bottom_szr->Add(buffer_lbl, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
 		bottom_szr->Add(m_player_padbuf_spin, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
 
-        if(IsNTSCMelee() || IsPALMelee())
-        {
-            if(!Is20XX())
-            {
-                bottom_szr->Add(new wxStaticText(parent, wxID_ANY, "Optimize for:"), 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
-                bottom_szr->Add(m_lag_reduction_choice, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
-            }
-
-            wxBoxSizer* const chkbox_sizer = new wxBoxSizer(wxVERTICAL);
-            chkbox_sizer->Add(m_memcard_write, 0, wxLEFT, space5);
-            chkbox_sizer->Add(m_widescreen_force_chkbox, 0, wxLEFT, space5);
-
-            bottom_szr->Add(chkbox_sizer, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
-        }
-        else
+        //if(IsNTSCMelee() || IsPALMelee())
+        //{
+        //    if(!Is20XX())
+        //    {
+        //        bottom_szr->Add(new wxStaticText(parent, wxID_ANY, "Optimize for:"), 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
+        //        //bottom_szr->Add(m_lag_reduction_choice, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
+        //    }
+		//
+        //    wxBoxSizer* const chkbox_sizer = new wxBoxSizer(wxVERTICAL);
+        //    chkbox_sizer->Add(m_memcard_write, 0, wxLEFT, space5);
+        //    chkbox_sizer->Add(m_widescreen_force_chkbox, 0, wxLEFT, space5);
+		//
+        //    bottom_szr->Add(chkbox_sizer, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
+        //}
+        //else
 		    bottom_szr->Add(m_memcard_write, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, space5);
 
 		bottom_szr->AddSpacer(space5);
@@ -375,6 +378,28 @@ void NetPlayDialog::OnChat(wxCommandEvent&)
 	}
 }
 
+bool NetPlayDialog::IsVanillaKAR()
+{
+	return m_selected_game.find(KAR::Data::GameID::GetKARROMID_NA()) != std::string::npos ||
+	       m_selected_game.find(KAR::Data::GameID::GetKARROMID_PAL()) != std::string::npos ||
+	       m_selected_game.find(KAR::Data::GameID::GetKARROMID_JP()) != std::string::npos ||
+	       m_selected_game.find(KAR::Data::GameID::GetKARROMID_KOR()) != std::string::npos;
+}
+
+bool NetPlayDialog::IsModdedKAR()
+{
+	return m_selected_game.find(KAR::Data::GameID::GetKARROMID_HackPack_101()) != std::string::npos ||
+	       m_selected_game.find(KAR::Data::GameID::GetKARROMID_Backside_2()) != std::string::npos ||
+	       m_selected_game.find(KAR::Data::GameID::GetKARROMID_Backside_3()) != std::string::npos ||
+	       m_selected_game.find(KAR::Data::GameID::GetKARROMID_Ignition_1()) != std::string::npos ||
+	       m_selected_game.find(KAR::Data::GameID::GetKARROMID_Constellation_1()) != std::string::npos;
+}
+
+bool NetPlayDialog::IsKARSupportsWideScreen()
+{
+	return false;
+}
+
 bool NetPlayDialog::IsNTSCMelee()
 {
     return m_selected_game.find("GALE01") != std::string::npos || m_selected_game.find("GALJ01") != std::string::npos;
@@ -407,8 +432,8 @@ void NetPlayDialog::GetNetSettings(NetSettings& settings)
 	settings.m_OCFactor = instance.m_OCFactor;
 	settings.m_EXIDevice[0] = m_memcard_write->GetValue() ? instance.m_EXIDevice[0] : EXIDEVICE_NONE;
 	settings.m_EXIDevice[1] = m_memcard_write->GetValue() ? instance.m_EXIDevice[1] : EXIDEVICE_NONE;
-    settings.m_LagReduction = (IsNTSCMelee() && !Is20XX()) || IsPALMelee()? (MeleeLagReductionCode)(m_lag_reduction_choice->GetSelection() + 1) : MELEE_LAG_REDUCTION_CODE_UNSET;
-    settings.m_MeleeForceWidescreen = IsNTSCMelee() || IsPALMelee() ? m_widescreen_force_chkbox->GetValue() : false;
+    settings.m_LagReduction = MELEE_LAG_REDUCTION_CODE_UNSET; //(IsNTSCMelee() && !Is20XX()) || IsPALMelee()? (MeleeLagReductionCode)(m_lag_reduction_choice->GetSelection() + 1) : MELEE_LAG_REDUCTION_CODE_UNSET;
+	settings.m_MeleeForceWidescreen = false; //IsNTSCMelee() || IsPALMelee() ? m_widescreen_force_chkbox->GetValue() : false;
 }
 
 std::string NetPlayDialog::FindGame(const std::string& target_game)
@@ -488,12 +513,12 @@ void NetPlayDialog::OnMsgStartGame()
 		m_game_btn->Disable();
 		m_player_config_btn->Disable();
         
-        if(IsNTSCMelee() || IsPALMelee())
-        {
-        	if(!Is20XX())
-            	m_lag_reduction_choice->Disable();
-            m_widescreen_force_chkbox->Disable();
-        }
+        //if(IsNTSCMelee() || IsPALMelee())
+        //{
+        //	//if(!Is20XX())
+        //   // 	m_lag_reduction_choice->Disable();
+        //    m_widescreen_force_chkbox->Disable();
+        //}
 	}
 
 	m_record_chkbox->Disable();
@@ -510,12 +535,12 @@ void NetPlayDialog::OnMsgStopGame()
 		m_game_btn->Enable();
 		m_player_config_btn->Enable();
 
-        if(IsNTSCMelee() || IsPALMelee())
-        {
-        	if(!Is20XX())
-            	m_lag_reduction_choice->Enable();
-            m_widescreen_force_chkbox->Enable();
-        }
+       // if(IsNTSCMelee() || IsPALMelee())
+       // {
+       // 	if(!Is20XX())
+       //     	m_lag_reduction_choice->Enable();
+       //     m_widescreen_force_chkbox->Enable();
+       // }
 	}
 	m_record_chkbox->Enable();
 }

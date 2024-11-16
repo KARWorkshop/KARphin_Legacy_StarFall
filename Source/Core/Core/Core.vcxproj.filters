@@ -1291,6 +1291,7 @@
     <ClInclude Include="DSP\Jit\DSPEmitter.h" />
     <ClInclude Include="KAR\json.hpp" />
     <ClInclude Include="KAR\Versioning.hpp" />
+    <ClInclude Include="KAR\Data\GameIDs.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />

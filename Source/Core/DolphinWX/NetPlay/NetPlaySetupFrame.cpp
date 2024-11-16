@@ -36,7 +36,7 @@ wxString GetTraversalLabelText(IniFile::Section& section)
 }  // Anonymous namespace
 
 NetPlaySetupFrame::NetPlaySetupFrame(wxWindow* const parent, const CGameListCtrl* const game_list)
-	: wxFrame(parent, wxID_ANY, _("Dolphin NetPlay Setup")), m_game_list(game_list)
+	: wxFrame(parent, wxID_ANY, _("Star Fall NetPlay Setup")), m_game_list(game_list)
 {
 	IniFile inifile;
 	inifile.Load(File::GetUserPath(F_DOLPHINCONFIG_IDX));
@@ -117,8 +117,8 @@ void NetPlaySetupFrame::CreateGUI()
 
 	m_direct_traversal = new wxChoice(panel, wxID_ANY);
 	m_direct_traversal->Bind(wxEVT_CHOICE, &NetPlaySetupFrame::OnDirectTraversalChoice, this);
-	m_direct_traversal->Append(_("Direct Connection"));
-	m_direct_traversal->Append(_("Traversal Server"));
+	m_direct_traversal->Append(_("IP Connection"));
+	m_direct_traversal->Append(_("Online"));
 
 	m_trav_reset_btn = new wxButton(panel, wxID_ANY, _("Reset Traversal Settings"));
 	m_trav_reset_btn->Bind(wxEVT_BUTTON, &NetPlaySetupFrame::OnResetTraversal, this);
@@ -196,12 +196,12 @@ wxNotebook* NetPlaySetupFrame::CreateNotebookGUI(wxWindow* parent)
 		             "using the Star Fall client.\n\n"
 		             "The latest build can be found at the KAR Workshop "
 		             "(https://karworkshop.sean-mott.com/#download)\n\n"
-		             "The following features have been diabled\n"
-		            "-auto fullscreen codes\n"
-		            "-saving debug menu settings between sessions\n"
-					 "-gecko code syncing\n" 
-					 "-replays\n"
-		            "-auto input buffer calculation\n"
+		             "The following features have been disabled\n"
+		             //"-auto fullscreen codes\n"
+		             //"-saving debug menu settings between sessions\n"
+					 //"-gecko code syncing\n" 
+					 //"-replays\n"
+		             //"-auto input buffer calculation\n"
 		             "-other minor tweaks"
 		           : "")));
 
